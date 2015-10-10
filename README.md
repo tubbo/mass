@@ -6,6 +6,8 @@ Mass is a Ruby framework for building MIDI synthesizer controls.
 
 ## Installation
 
+On Linux, the **libasound** and **libasound-dev** are required for use.
+
 Add this line to your application's Gemfile:
 
 ```ruby
