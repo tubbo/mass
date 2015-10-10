@@ -21,7 +21,7 @@ module Mass
     # @option [Integer] bpm - defaults to 100
     def initialize(name, bpm: 100)
       @name = name
-      @_bpm = 100
+      @_bpm = bpm
       @_midi ||= UniMIDI::Output.gets
       yield if block_given?
     end

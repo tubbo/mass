@@ -90,7 +90,6 @@ module Mass
     # @return [Integer]
     def_delegator :pitch, :to_i, :to_midi
 
-
     # This note as expressed in a MIDI velocity value.
     #
     # @return [Integer]

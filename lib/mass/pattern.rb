@@ -12,7 +12,7 @@ module Mass
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def initialize(name: '', bars: 4, sequence: nil, &block)
+    def initialize(name: '', bars: 4, sequence: nil)
       @name = name
       @bars = bars
       @notes = []
@@ -25,7 +25,9 @@ module Mass
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def self.create(name: '', bars: 4, repeat: false, sequence: sequence, &block)
+    def self.create(
+      name: '', bars: 4, repeat: false, sequence: nil, &block
+    )
       pattern = new(name: name, bars: bars, sequence: sequence, &block)
       pattern.play in_loop: repeat if pattern.notes.any?
       pattern
@@ -43,8 +45,8 @@ module Mass
     # Tests equivilance bases on name
     #
     # @return [Boolean] whether both patterns have the same name
-    def ==(pattern)
-      pattern.name == name
+    def ==(other)
+      other.name == name
     end
 
     protected

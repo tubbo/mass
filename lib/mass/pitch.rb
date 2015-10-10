@@ -1,5 +1,3 @@
-require 'mass/pitch/not_found'
-
 module Mass
   # Represents the pitch of a given note, and calculates its
   # correct MIDI value, leaving the +Note+ class more for
@@ -57,7 +55,6 @@ module Mass
     #
     # @param [String] by_id
     # @return [Pitch] when the id is valid
-    # @throw [Pitch::NotFound] when id is not valid
     def self.find(by_id = nil)
       return if by_id.nil?
       new id: by_id
@@ -83,8 +80,8 @@ module Mass
     # Use the +id+ parameter to define equivalence.
     #
     # @return [Boolean] whether both pitches have the same ID.
-    def ==(pitch)
-      pitch.id == id
+    def ==(other)
+      other.id == id
     end
 
     private
