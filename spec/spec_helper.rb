@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require "codeclimate-test-reporter"
+require 'codeclimate-test-reporter'
 
 # Test coverage reporting
 CodeClimate::TestReporter.start
