@@ -1,18 +1,22 @@
+require 'unimidi'
+require 'mass/note'
+
 module Mass
   # A single pattern written using the +Mass+ DSL. This is the
   # "collection"-style object which holds each +Note+ and plays
   # them in sequence, but has no control over their durations or
   # pitches.
   class Pattern
-    attr_reader :name, :bars, :notes
+    attr_reader :name, :bars, :notes, :sequence
 
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def initialize(name: '', bars: 4, &_block)
+    def initialize(name: '', bars: 4, sequence: nil, &block)
       @name = name
       @bars = bars
       @notes = []
+      @sequence = sequence
       yield if block_given?
     end
 
@@ -21,9 +25,9 @@ module Mass
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def self.create(name: '', bars: 4, repeat: false, &block)
-      pattern = new(name: name, bars: bars, &block)
-      pattern.play! in_loop: repeat
+    def self.create(name: '', bars: 4, repeat: false, sequence: sequence, &block)
+      pattern = new(name: name, bars: bars, sequence: sequence, &block)
+      pattern.play in_loop: repeat if pattern.notes.any?
       pattern
     end
 
@@ -31,9 +35,16 @@ module Mass
     # into it.
     #
     # @param [Boolean] in_loop - defaults to +false+.
-    def play!(in_loop: false)
-      _play_once unless in_loop
-      loop { _play_once }
+    def play(in_loop: false)
+      return _play_once unless in_loop
+      _play_in_loop
+    end
+
+    # Tests equivilance bases on name
+    #
+    # @return [Boolean] whether both patterns have the same name
+    def ==(pattern)
+      pattern.name == name
     end
 
     protected
@@ -53,7 +64,8 @@ module Mass
         value: value,
         pitch: pitch,
         exp: expression,
-        midi: _midi
+        midi: sequence._midi,
+        bpm: sequence._bpm
       )
     end
 
@@ -63,12 +75,12 @@ module Mass
 
     private
 
-    def _midi
-      @midi ||= UniMIDI::Output.gets
+    def _play_once
+      notes.all?(&:play)
     end
 
-    def _play_once
-      notes.map(&:play)
+    def _play_in_loop
+      loop { _play_once }
     end
   end
 end

@@ -41,10 +41,10 @@ include Mass
 
 bpm 128
 pattern bars: 4 do
-  note 4, pitch: 'c2'
-  note 4, pitch: 'c3'
-  note 4, pitch: 'c4'
-  note 4, pitch: 'c3'
+  note 4, pitch: 'C2'
+  note 4, pitch: 'C3'
+  note 4, pitch: 'C4'
+  note 4, pitch: 'C3'
 end
 ```
 

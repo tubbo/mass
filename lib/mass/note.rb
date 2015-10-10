@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'mass/pitch'
 
 module Mass
   # Represents a single note in the pattern.
@@ -49,6 +50,16 @@ module Mass
     # @attr_reader [Mass::Pitch]
     attr_reader :pitch
 
+    # Rhythmic duration value for this note.
+    #
+    # @attr_reader [Integer]
+    attr_reader :value
+
+    # BPM passed in from the sequence.
+    #
+    # @attr_reader [Integer]
+    attr_reader :bpm
+
     # Hex value for sending to +UniMIDI+ that signals when
     # this note should begin playing.
     #
@@ -65,22 +76,20 @@ module Mass
     # @param [String] pitch
     # @param [Symbol | Integer] exp - Can be expressed as either
     # @param [UniMIDI::Output] midi
-    def initialize(value: 1, pitch: nil, exp: :mp, midi: nil)
+    def initialize(value: 1, pitch: nil, exp: :mp, midi: nil, bpm: 100)
       @value = value
+      @name = pitch
       @pitch = Pitch.find pitch
       @expression = exp
       @midi = midi
+      @bpm = bpm
     end
-
-    # The given note name.
-    #
-    # @return [String]
-    def_delegator :pitch, :name, :id
 
     # This note as expressed in a MIDI pitch value.
     #
     # @return [Integer]
     def_delegator :pitch, :to_i, :to_midi
+
 
     # This note as expressed in a MIDI velocity value.
     #
@@ -92,14 +101,20 @@ module Mass
     # The given duration value divided by the BPM of
     # the current song.
     def duration
-      value / Mass.current_bpm
+      vpm * 0.01
     end
 
     # Play the current note through the +UniMIDI+ output.
     def play
-      midi.puts ON, to_midi, to_velocity if pitch.present?
+      midi.puts ON, to_midi, to_velocity unless pitch.nil?
       sleep duration
-      midi.puts OFF, to_midi, to_velocity if pitch.present?
+      midi.puts OFF, to_midi, to_velocity unless pitch.nil?
+    end
+
+    private
+
+    def vpm
+      bpm / value
     end
   end
 end
