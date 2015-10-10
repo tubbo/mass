@@ -4,25 +4,27 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'mass/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "mass"
+  spec.name          = 'mass'
   spec.version       = Mass::VERSION
-  spec.authors       = ["Tom Scott"]
-  spec.email         = ["tscott@weblinc.com"]
+  spec.authors       = ['Tom Scott']
+  spec.email         = ['tscott@weblinc.com']
 
-  spec.summary       = "Synth framework for Ruby."
+  spec.summary       = 'Synth framework for Ruby.'
   spec.description   = "#{spec.summary} Build a cool synth!"
-  spec.homepage      = "https://github.com/tubbo/mass"
-  spec.license       = "MIT"
+  spec.homepage      = 'https://github.com/tubbo/mass'
+  spec.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(spec)/}) }
-  spec.bindir        = "exe"
+  spec.files         = `git ls-files -z`.split("\x0").reject do |file|
+    file.match(%r{^(spec)/})
+  end
+  spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
-  spec.add_development_dependency "bundler", "~> 1.9"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop", "~> 0"
+  spec.add_development_dependency 'bundler', '~> 1.9'
+  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec', '~> 3.0'
+  spec.add_development_dependency 'rubocop', '~> 0'
 
-  spec.add_dependency "unimidi"
+  spec.add_dependency 'unimidi'
 end

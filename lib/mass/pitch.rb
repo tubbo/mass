@@ -41,7 +41,11 @@ module Mass
       @id = identifier.to_s
       @name = id.gsub(/\d/, '').to_s
       @octave = id.gsub(/#{name}/, '').to_i
-      @value = VALUES[name] rescue nil
+      @value = begin
+                 VALUES[name]
+               rescue
+                 nil
+               end
     end
 
     # Find a +Pitch+ by its given +id+.
@@ -59,9 +63,7 @@ module Mass
     #
     # @return [Boolean] whether the object is valid
     def valid?
-      REQUIRED.map do |name|
-        send name
-      end.all? do |param|
+      required_params.all? do |param|
         !param.nil? && (param != '') && (param != 0)
       end
     end
@@ -74,6 +76,12 @@ module Mass
     end
 
     private
+
+    def required_params
+      REQUIRED.map do |param_name|
+        send param_name
+      end
+    end
 
     # The number by which the given scalar pitch gets modified to
     # produce the correct MIDI note value for playback.

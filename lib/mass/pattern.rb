@@ -9,7 +9,7 @@ module Mass
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def initialize(name: '', bars: 4, &block)
+    def initialize(name: '', bars: 4, &_block)
       @name = name
       @bars = bars
       @notes = []

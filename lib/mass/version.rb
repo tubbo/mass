@@ -1,3 +1,7 @@
+# :nodoc:
 module Mass
-  VERSION = "0.1.0"
+  # Version number
+  #
+  # @type [String]
+  VERSION = '0.0.1'
 end
