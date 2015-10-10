@@ -1,4 +1,12 @@
 language: ruby
 rvm:
-  - 2.0.0
+- 2.0.0
 script: ./bin/rake
+deploy:
+  provider: rubygems
+  api_key:
+    secure: idwit0aZMOvvNrRYA74X2mC1YroT50+7XmDv4d+VT+KIHlBm8E4KCbwEO7MQSJTWQq1K3ThQMxWyp6PgeTgz4lZJRfIfndLZdqRKUkcthhMZeUNiQkP0vra9a0PIpDkQxmgSsNU7b7LEc62P2ER4mA3gtQiEsPheUx2LSlkPLhrLLXgBhSCf3RrUN3xUoYtEBWtkGg6Cqbe5f8lEs5h/JzL/brsw1IgU9IpRgQpr5twAAcSw+RxziwMj2/VxVVxHpDcda5nqg2UxPG/D8VjZtC6O1dVaLILDjqKdQnLnBLhqbGcrTWG+FDtWaQ7irXrceDHzfyffKTAtmFZxeVeKQuYBE1rSF2cbxbZw8qTtJyND0XXwEeq+2BmHqvP8717hauao/J7wLVnoaCyf6oMIFSyQY+5Ghi/pUCqQlBcHAAWOMRzv4plkoofIs4wAA//Rn9hHRDafxUTjnR4okfQLt9DgrxI4veqSui4xOknsEHyIfRyRKeVAqWI4tRAAaaOWGYequ3fCgOP086Bm5fEmlLb0KLnjBDgY/NbYVmP0JfYJAVvBFHviTtdgaDEf+46cdc1lN3tbpweS+qjMU6ChrL0xIQx/eF748Zx2m2wElEF2vgbTn70BKRxCbU8Ql8Ewh5v1bWqa7NHq7C8C/2x2YFwFFh6sEWVJHnq5z055gJQ=
+  gem: mass
+  on:
+    tags: true
+    repo: tubbo/mass
