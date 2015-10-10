@@ -1,6 +1,7 @@
 language: ruby
 cache: bundler
-before_install: apt-get install -y libasound libasound-dev
+sudo: required
+before_install: sudo apt-get install -y libasound libasound-dev
 deploy:
   provider: rubygems
   api_key:
