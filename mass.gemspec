@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'travis', '~> 1.8'
   spec.add_development_dependency 'codeclimate-test-reporter', '~> 0'
 
-  spec.add_dependency 'unimidi'
+  spec.add_dependency 'unimidi', '~> 0'
 end
