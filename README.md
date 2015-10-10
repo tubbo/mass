@@ -1,5 +1,7 @@
 # Mass
 
+[![Build Status](https://travis-ci.org/tubbo/mass.svg?branch=master)](https://travis-ci.org/tubbo/mass)
+
 Mass is a Ruby framework for building MIDI synthesizer controls.
 
 ## Installation
