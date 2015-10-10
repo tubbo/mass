@@ -1,7 +1,7 @@
 language: ruby
 cache: bundler
 sudo: required
-before_install: sudo apt-get install -y libasound libasound-dev
+before_install: sudo apt-get install -y libasound2-dev
 deploy:
   provider: rubygems
   api_key:
@@ -10,3 +10,7 @@ deploy:
   on:
     tags: true
     repo: tubbo/mass
+addons:
+  code_climate:
+    repo_token:
+      secure: loBoOiccqVWqMihGrLjRqalFtZ2LenatY7KSbeIA94pS23lQgxCg2n9oMwpB0nB6Mgk1hBoJjKhrJau9FP50On+HK39Y8AdOPucB5YT9EICRr3/3urAtiwMdbCGGUcRRrklP3DEVvWyOIHltQWwGtTUzQaGuNiZ4AUI/9tQ/Rqtnu11Vy/FtpIG3xjGq9jeyTa69OUOHhNjzlSCywu8t1rWkR1fsRE0bDwkNmsK1OITYAD/DAbAAg4QMnOiwc6ePwxQ+GqRIGkwxdm5xCZBnVwknVXne2dfXcPvMgAdr+0np7jzjPkmkInFlIZkOjnuhRclgYYscbwnLDqLKifDU/xcDnmsaBjl3EXyN/nspx0YWIIgWY61V+NrOhnVrxVHt1tZ0hYmeaXxkmWfW6r7tlt3oKl2hZBGv0CLe7Jt5Kkoq+iv5fBKyDkEzxoNG2A5KTPoiximnWSYsFqwvyF2mes/TJ+4txyec5U3N8j0ufYaZXkIJPoECVRI2NusEMad/ZdRfkXls3+UDrr8ohQNK0REywLyp28ino+I39zvorQjfbsXZ6jMCyVsZn/rxb6T2EyrqNouFBlmGW0DoULloyA7UKmBxgovHsPEUkhzB3B/oDmHFnwhp2wyxrJBu8nOgSyLVpQYWVyFCXmLjoaOWlxLVGy34UF7Z26stDp4FG54=
