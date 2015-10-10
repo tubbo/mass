@@ -1,8 +1,6 @@
 # Mass
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mass`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Mass is a Ruby framework for building MIDI synthesizer controls.
 
 ## Installation
 
@@ -14,26 +12,64 @@ gem 'mass'
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
-Or install it yourself as:
+Or install it yourself:
 
-    $ gem install mass
+```bash
+$ gem install mass
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+To create a new pattern, use the DSL methods that Mass gives you upon
+mixing it into whatever namespace you're dealing with.
+
+```ruby
+require 'mass'
+
+include Mass
+
+bpm 128
+pattern bars: 4 do
+  note 4, pitch: 'c2'
+  note 4, pitch: 'c3'
+  note 4, pitch: 'c4'
+  note 4, pitch: 'c3'
+end
+```
+
+Read the [RDoc documentation][rdoc] for more information on
+each component and what each DSL method does.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+Mass was created by [Tom Scott][tubbo] and is published under
+the [MIT License][mit]. All contributions are welcome as long
+as they are submitted via pull request, include tests that
+describe your change and prove what you did works, and do not
+break the CI build.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To get started with contributing, clone down this repo and run the
+following command within its root directory:
 
-## Contributing
+```bash
+$ bin/setup
+```
 
-1. Fork it ( https://github.com/[my-github-username]/mass/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+If you need to install this gem onto your local machine, run:
+
+```bash
+$ bin/rake install
+```
+
+To release a new version, update the version number in
+**lib/mass/version.rb**, then run the following command to create a Git
+tag for the release, push all commits & tags to the repo, and upload the
+newly built `.gem` file to [RubyGems][gem]:
+
+```bash
+$ bin/rake release
+```

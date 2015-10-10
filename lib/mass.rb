@@ -1,4 +1,6 @@
 require 'unimidi'
+
+require 'mass/version'
 require 'mass/pitch'
 require 'mass/note'
 require 'mass/pattern'
@@ -6,8 +8,12 @@ require 'mass/pattern'
 # A massive synth library.
 module Mass
   class << self
-    attr_accessor :current_bpm
-    self.current_bpm ||= 100
+    # The current BPM of this track. Defaults to +100+.
+    #
+    # @return [Integer]
+    def current_bpm
+      @current_bpm ||= 100
+    end
 
     # Change BPM of the track.
     #
@@ -18,7 +24,7 @@ module Mass
     #   bpm 128
     #
     def bpm(new_bpm)
-      self.current_bpm = new_bpm
+      @current_bpm = new_bpm
     end
 
     # Create a pattern in Mass.
