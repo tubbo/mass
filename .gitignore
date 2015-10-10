@@ -10,3 +10,4 @@
 tags
 /vendor/
 .env
+/spec/examples.txt
