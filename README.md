@@ -80,3 +80,8 @@ newly built `.gem` file to [RubyGems][gem]:
 ```bash
 $ bin/rake release
 ```
+
+[tubbo]: https://github.com/tubbo
+[rdoc]: https://rdoc.info/github/tubbo/mass/master/frames
+[gem]: https://rubygems.org
+[mit]: https://github.com/tubbo/mass/blob/master/LICENSE.txt
