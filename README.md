@@ -1,6 +1,9 @@
 # Mass
 
 [![Build Status](https://travis-ci.org/tubbo/mass.svg?branch=master)](https://travis-ci.org/tubbo/mass)
+[![Code Climate](https://codeclimate.com/github/tubbo/mass/badges/gpa.svg)](https://codeclimate.com/github/tubbo/mass)
+[![Test Coverage](https://codeclimate.com/github/tubbo/mass/badges/coverage.svg)](https://codeclimate.com/github/tubbo/mass/coverage)
+[![Inline docs](http://inch-ci.org/github/tubbo/mass.svg?branch=master)](http://inch-ci.org/github/tubbo/mass)
 
 Mass is a Ruby framework for building MIDI synthesizer controls.
 
