@@ -1,13 +1,36 @@
+require 'forwardable'
+
 module Mass
   # Represents the pitch of a given note, and calculates its
   # correct MIDI value, leaving the +Note+ class more for
   # calculating the proper duration and actually playing out
   # the note.
   class Pitch
+    extend Forwardable
+
+    # ID of the pitch, e.g. 'C4'
+    #
+    # @attr_reader [String]
     attr_reader :id
+
+    # The name of the note, e.g. 'C'.
+    #
+    # @attr_reader [String]
     attr_reader :name
+
+    # Numerical octave of the note, e.g. 4.
+    #
+    # @attr_reader [Integer]
     attr_reader :octave
+
+    # The calculated MIDI value of this pitch, which is the
+    # base value as defined in +VALUES+ multiplied by the
+    # octave it is placed in.
+    #
+    # @attr_reader [Integer]
     attr_reader :value
+
+    def_delegator :to_sym, :id
 
     # A dictionary of MIDI note values that are substituted
     # for a given String note value.
@@ -77,15 +100,27 @@ module Mass
       value + octave_modifier
     end
 
+    # String representation of this pitch for logging purposes.
+    #
+    # @return [String]
+    def to_s
+      "#{id} (#{to_i})"
+    end
+
     # Use the +id+ parameter to define equivalence.
     #
     # @return [Boolean] whether both pitches have the same ID.
     def ==(other)
-      other.id == id
+      other.to_sym == to_sym
     end
 
     private
 
+    # Collection of parameters required for this pitch to be
+    # valid.
+    #
+    # @private
+    # @return [Array]
     def required_params
       REQUIRED.map do |param_name|
         send param_name

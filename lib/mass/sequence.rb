@@ -1,43 +1,31 @@
+require 'mass/node'
+
 module Mass
   # A sequence of patterns that is played in order immediately
   # as it is defined.
-  class Sequence
+  class Sequence < Component
     # Name of this sequence
     #
     # @attr_reader [String]
     attr_reader :name
 
-    # Beats per minute speed of the sequence
+    # Beats per minute speed of the sequence. Defaults to 100.
     #
     # @attr_reader [Integer]
-    attr_reader :_bpm
+    attr_reader :bpm
 
-    attr_reader :patterns
+    # @attr_reader [Array<Pattern>]
+    attr_reader :_patterns
 
-    # @param [String] name
-    # @option [Integer] bpm - defaults to 100
-    def initialize(name, bpm: 100)
-      @name = name
-      @patterns = []
-      @_bpm = bpm
-    end
-
-    def self.define(name, **params, &block)
-      sequence = new(name, **params)
-      sequence.instance_eval(&block)
-      puts "BPM: #{sequence._bpm}"
-      sequence.patterns.map(&:_play)
-      sequence
-    end
-
-    # Change BPM.
-    #
-    # @param [Integer] new_bpm
-    # @example
-    #   bpm 128
-    #
-    def bpm(new_bpm)
-      @_bpm = new_bpm
+    # Play this sequence by playing all of its patterns simultaneously.
+    def play
+      puts "Playing sequence #{name} at #{bpm}"
+      threads = _patterns.map do |pattern|
+        Thread.new do
+          pattern.map(&:play)
+        end
+      end
+      threads.map(&:join)
     end
 
     # Create a pattern. See the docs on +Mass::Pattern+ for more
@@ -58,7 +46,7 @@ module Mass
     #   end
     #
     def pattern(**params, &block)
-      @patterns << Pattern.define(**params.merge(bpm: _bpm), &block)
+      @_patterns << Pattern.define(**params.merge(bpm: _bpm), &block)
     end
   end
 end
