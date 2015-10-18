@@ -80,7 +80,7 @@ module Mass
       @value = value
       @name = pitch
       @pitch = Pitch.find pitch
-      @expression = exp
+      @expression = exp || :mp
       @midi = midi
       @bpm = bpm
     end
@@ -105,6 +105,7 @@ module Mass
 
     # Play the current note through the +UniMIDI+ output.
     def play
+      puts "note: #{to_midi} velocity: #{to_velocity} (#{expression})"
       midi.puts ON, to_midi, to_velocity unless pitch.nil?
       sleep duration
       midi.puts OFF, to_midi, to_velocity unless pitch.nil?

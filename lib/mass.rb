@@ -5,10 +5,9 @@ require 'mass/pitch'
 require 'mass/note'
 require 'mass/pattern'
 require 'mass/sequence'
+require 'mass/dsl'
 
 # A massive synth library.
 module Mass
-  def self.sequence(*args)
-    Sequence.define(*args)
-  end
+  extend DSL
 end

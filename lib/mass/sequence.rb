@@ -12,28 +12,22 @@ module Mass
     # @attr_reader [Integer]
     attr_reader :_bpm
 
-    # MIDI driver used to power all notes in the sequence.
-    #
-    # @attr_reader [UniMIDI::Output]
-    attr_reader :_midi
+    attr_reader :patterns
 
     # @param [String] name
     # @option [Integer] bpm - defaults to 100
     def initialize(name, bpm: 100)
       @name = name
+      @patterns = []
       @_bpm = bpm
-      @_midi ||= UniMIDI::Output.gets
-      yield if block_given?
     end
 
-    # Define a new sequence into the global namespace
-    #
-    # @param [String] name
-    # @options [KeywordArguments] params
-    # @param [Proc] block
-    # @return [Mass::Sequence]
     def self.define(name, **params, &block)
-      new name, **params, &block
+      sequence = new(name, **params)
+      sequence.instance_eval(&block)
+      puts "BPM: #{sequence._bpm}"
+      sequence.patterns.map(&:_play)
+      sequence
     end
 
     # Change BPM.
@@ -64,7 +58,7 @@ module Mass
     #   end
     #
     def pattern(**params, &block)
-      Pattern.create(**params.merge(sequence: self), &block)
+      @patterns << Pattern.define(**params.merge(bpm: _bpm), &block)
     end
   end
 end

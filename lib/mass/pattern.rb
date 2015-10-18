@@ -7,29 +7,23 @@ module Mass
   # them in sequence, but has no control over their durations or
   # pitches.
   class Pattern
-    attr_reader :name, :bars, :notes, :sequence
+    attr_reader :name, :bars, :notes, :device, :bpm
 
     # @param [String] name
     # @param [Integer] bars
     # @param block
-    def initialize(name: '', bars: 4, sequence: nil)
+    def initialize(name: '', bars: 4, device: '', repeat: false, bpm: 100)
       @name = name
       @bars = bars
       @notes = []
-      @sequence = sequence
-      yield if block_given?
+      @device = device
+      @repeat = repeat
+      @bpm = bpm
     end
 
-    # Create a new pattern and immediately play it.
-    #
-    # @param [String] name
-    # @param [Integer] bars
-    # @param block
-    def self.create(
-      name: '', bars: 4, repeat: false, sequence: nil, &block
-    )
-      pattern = new(name: name, bars: bars, sequence: sequence, &block)
-      pattern.play in_loop: repeat if pattern.notes.any?
+    def self.define(**params, &block)
+      pattern = new(**params)
+      pattern.instance_eval(&block)
       pattern
     end
 
@@ -37,9 +31,16 @@ module Mass
     # into it.
     #
     # @param [Boolean] in_loop - defaults to +false+.
-    def play(in_loop: false)
-      return _play_once unless in_loop
+    def _play
+      return _play_once unless looped?
       _play_in_loop
+    end
+
+    # Whether this pattern should play in a loop. Default is false.
+    #
+    # @return [Boolean]
+    def looped?
+      @repeat ||= false
     end
 
     # Tests equivilance bases on name
@@ -49,13 +50,10 @@ module Mass
       other.name == name
     end
 
-    protected
-
     # Part of the DSL, the +note+ method instantiates a
     # new +Note+ object with the given parameters and
     # pushes it into the pattern's notes collection.
     #
-    # @private
     # @param [Integer] value - Value of each note
     # @param [String] pitch - String representation
     #                         of MIDI note, e.g. 'c4'
@@ -66,8 +64,8 @@ module Mass
         value: value,
         pitch: pitch,
         exp: expression,
-        midi: sequence._midi,
-        bpm: sequence._bpm
+        midi: midi,
+        bpm: bpm
       )
     end
 
@@ -79,10 +77,15 @@ module Mass
 
     def _play_once
       notes.all?(&:play)
+      midi.close
     end
 
     def _play_in_loop
       loop { _play_once }
+    end
+
+    def midi
+      UniMIDI::Output.find_by_name(device).open
     end
   end
 end
