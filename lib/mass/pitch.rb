@@ -30,8 +30,6 @@ module Mass
     # @attr_reader [Integer]
     attr_reader :value
 
-    def_delegator :to_sym, :id
-
     # A dictionary of MIDI note values that are substituted
     # for a given String note value.
     #
@@ -105,6 +103,10 @@ module Mass
     # @return [String]
     def to_s
       "#{id} (#{to_i})"
+    end
+
+    def to_sym
+      id.to_sym
     end
 
     # Use the +id+ parameter to define equivalence.

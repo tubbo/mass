@@ -1,10 +1,10 @@
 require 'forwardable'
 require 'mass/pitch'
-require 'mass/node'
+require 'mass/component'
 
 module Mass
   # Represents a single note in the pattern.
-  class Note < Node
+  class Note < Component
     extend Forwardable
 
     # Dictionary of velocity values from a given +expression+.

@@ -31,8 +31,11 @@ module Mass
     # Notes collection.
     #
     # @attr_reader [Array<Note>]
-    def _notes
-      @_notes ||= []
+    attr_reader :_notes
+
+    def initialize(**args)
+      super
+      @_notes = []
     end
 
     # Play all notes in the pattern in order.
@@ -40,6 +43,8 @@ module Mass
     # @return [Boolean] +true+ when the pattern has completed.
     def play
       puts "Playing pattern #{name} at #{bpm}"
+      puts "Opening MIDI connection to '#{device}'"
+      midi.open
 
       if looped?
         puts "...in a loop"
@@ -52,7 +57,7 @@ module Mass
         _notes.each(&:play)
       end
 
-      puts "Closing MIDI connection"
+      puts "Closing MIDI connection to '#{device}'"
       midi.close
     end
 
@@ -73,7 +78,7 @@ module Mass
     # @param [Symbol] expression - Symbolic representation
     #                              of MIDI velocity, e.g. ':ff'
     def note(value, pitch: nil, expression: nil)
-      @notes << Note.define(
+      @_notes << Note.define(
         value: value,
         pitch: pitch,
         exp: expression,
@@ -95,7 +100,7 @@ module Mass
     # @private
     # @return [UniMIDI::Output]
     def midi
-      UniMIDI::Output.find_by_name(device).open
+      @midi ||= UniMIDI::Output.find_by_name(device)
     end
   end
 end

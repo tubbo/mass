@@ -1,4 +1,4 @@
-require 'mass/node'
+require 'mass/component'
 
 module Mass
   # A sequence of patterns that is played in order immediately
@@ -17,12 +17,17 @@ module Mass
     # @attr_reader [Array<Pattern>]
     attr_reader :_patterns
 
+    def initialize(**args)
+      super
+      @_patterns = []
+    end
+
     # Play this sequence by playing all of its patterns simultaneously.
     def play
       puts "Playing sequence #{name} at #{bpm}"
       threads = _patterns.map do |pattern|
         Thread.new do
-          pattern.map(&:play)
+          pattern.play
         end
       end
       threads.map(&:join)
@@ -45,8 +50,9 @@ module Mass
     #     rest 8
     #   end
     #
-    def pattern(**params, &block)
-      @_patterns << Pattern.define(**params.merge(bpm: _bpm), &block)
+    def pattern(**given_params, &block)
+      params = { bpm: bpm }.merge(given_params)
+      @_patterns << Pattern.define(**params, &block)
     end
   end
 end
