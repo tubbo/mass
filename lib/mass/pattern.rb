@@ -60,7 +60,6 @@ module Mass
       open! && play! && close!
     end
 
-
     # Whether this pattern should play in a loop. Default is false.
     #
     # @return [Boolean]

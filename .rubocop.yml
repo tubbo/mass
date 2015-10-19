@@ -2,3 +2,13 @@ AllCops:
   Exclude:
     - vendor/bundle/**/*
     - bin/**/*
+    - examples/**/*
+
+Style/Documentation:
+  Exclude:
+    - lib/mass/version.rb
+    - spec/**/*
+
+Metrics/AbcSize:
+  Exclude:
+    - lib/mass/note.rb
