@@ -3,13 +3,20 @@ require 'mass/pitch'
 require 'mass/component'
 
 module Mass
-  # Represents a single note in the pattern.
+  # Represents a single note in the Pattern, and typically created by
+  # the +note+ method, notes are typically created first and then
+  # executed in sequence by the pattern once they are all defined. That
+  # said, notes can also be created programatically with the +create+
+  # method defined by every other component.
+  #
+  # @example
+  #
+  #   Note.create value: 4, pitch: 'C4', expression: :ff
+  #
   class Note < Component
     extend Forwardable
 
     # Dictionary of velocity values from a given +expression+.
-    #
-    # @type [Hash<Symbol>]
     VELOCITIES = {
       ff: 127,
       mf: 117,
@@ -21,14 +28,10 @@ module Mass
 
     # Hex value for sending to +UniMIDI+ that signals when
     # this note should begin playing.
-    #
-    # @type [Fixnum]
     ON = 0x90
 
     # Hex value for sending to +UniMIDI+ that signals when
     # this note should cease playing.
-    #
-    # @type [Fixnum]
     OFF = 0x80
 
     # MIDI output object passed in by the sequence.
@@ -70,6 +73,8 @@ module Mass
 
     # The given duration value divided by the BPM of
     # the current song.
+    #
+    # @return [Fixnum]
     def duration
       vpm * 0.01
     end
@@ -95,15 +100,21 @@ module Mass
     end
 
     # Play the current note through the +UniMIDI+ output.
+    #
+    # @return [Boolean] +true+ if the note played successfully.
     def play
-      puts "Playing note #{pitch} at '#{expression}'"
+      puts "Playing note #{pitch} at :#{expression} on '#{@device}'"
       midi.puts ON, to_midi, to_velocity unless pitch.nil?
       sleep duration
       midi.puts OFF, to_midi, to_velocity unless pitch.nil?
+      true
     end
 
     private
 
+    # "Values" per minute, a value defined by dividing the note value
+    # (which must be greater than 0) by the bpm of the pattern.
+    #
     # @private
     # @return [Integer]
     def vpm

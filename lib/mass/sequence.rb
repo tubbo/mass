@@ -14,15 +14,23 @@ module Mass
     # @attr_reader [Integer]
     attr_reader :bpm
 
+    # Number of bars this sequence plays for.
+    #
+    # @attr_reader [Integer]
+    attr_reader :bars
+
     # @attr_reader [Array<Pattern>]
     attr_reader :_patterns
 
+    # @param args - Keyword arguments to set up data.
     def initialize(**args)
       super
       @_patterns = []
     end
 
     # Play this sequence by playing all of its patterns simultaneously.
+    #
+    # @return [Boolean] +true+ when all threads have joined together.
     def play
       puts "Playing sequence #{name} at #{bpm}"
       threads = _patterns.map do |pattern|
@@ -30,14 +38,14 @@ module Mass
           pattern.play
         end
       end
-      threads.map(&:join)
+      threads.all?(&:join)
     end
 
     # Create a pattern. See the docs on +Mass::Pattern+ for more
     # information about its requirements.
     #
-    # @options [KeywordArguments] params
-    # @options [Proc] block
+    # @param params - Keyword arguments of params.
+    # @param [Proc] block
     # @example
     #   pattern name: 'verse', bars: 1 do
     #     note 8, pitch: 'C4'
@@ -50,9 +58,9 @@ module Mass
     #     rest 8
     #   end
     #
-    def pattern(**given_params, &block)
-      params = { bpm: bpm }.merge(given_params)
-      @_patterns << Pattern.define(**params, &block)
+    def pattern(**params, &block)
+      options = { bpm: bpm, bars: bars, sequence: self }.merge(params)
+      @_patterns << Pattern.define(**options, &block)
     end
   end
 end

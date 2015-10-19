@@ -32,8 +32,6 @@ module Mass
 
     # A dictionary of MIDI note values that are substituted
     # for a given String note value.
-    #
-    # @type [Array<String>]
     VALUES = {
       'C' => 36,
       'C#' => 37,
@@ -56,8 +54,6 @@ module Mass
 
     # A collection of attributes which are required for
     # this object to be considered a valid pitch.
-    #
-    # @type [Array<Symbol>]
     REQUIRED = %i(name octave value)
 
     # @param [String] id - Identifier string of this pitch.
