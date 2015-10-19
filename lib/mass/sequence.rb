@@ -19,6 +19,8 @@ module Mass
     # @attr_reader [Integer]
     attr_reader :bars
 
+    # Collection of patterns defined within this sequence.
+    #
     # @attr_reader [Array<Pattern>]
     attr_reader :_patterns
 
