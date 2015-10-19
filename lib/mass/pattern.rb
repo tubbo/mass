@@ -40,9 +40,12 @@ module Mass
     # @attr_reader [Array<Note>]
     attr_reader :_notes
 
+    # The sequence that this +Pattern+ runs in the context of.
+    #
+    # @attr_reader [Mass::Sequence]
     attr_reader :sequence
 
-    # @params args - A hash of keyword arguments
+    # @param args - A hash of keyword arguments
     def initialize(**args)
       super
       @_notes = []

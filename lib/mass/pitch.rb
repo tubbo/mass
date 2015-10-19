@@ -101,6 +101,9 @@ module Mass
       "#{id} (#{to_i})"
     end
 
+    # Convert the ID of this pitch to a Symbol.
+    #
+    # @return [Symbol]
     def to_sym
       id.to_sym
     end

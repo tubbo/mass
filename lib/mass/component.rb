@@ -51,10 +51,10 @@ module Mass
     # this method returns, typically components tend to return +true+ to
     # indicate that it has finished playing.
     #
-    # @throw [NotImplementedError] if the method has not been defined
+    # @raise [NotImplementedError] if the method has not been defined
     # @return [Boolean] +true+ when the component has finished playing.
     def play
-      raise NotImplementedError
+      fail NotImplementedError
     end
   end
 end
