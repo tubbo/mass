@@ -48,8 +48,33 @@ pattern bars: 4 do
 end
 ```
 
-Read the [RDoc documentation][rdoc] for more information on
-each component and what each DSL method does.
+You can also use this syntax to also name the sequence and keep it out
+of the main namespace:
+
+```ruby
+MS20 = 'KORG INC. MS-20M Kit'
+TEMPEST = 'Dave Smith Instruments Tempest'
+
+Mass.sequence name: 'Your Love', bpm: 125, bars: 32 do
+  pattern name: 'Arpeggio', repeat: true, device: MS20 do
+    note 8, pitch: 'G4'
+    note 8, pitch: 'E4'
+    note 8, pitch: 'C4'
+  end
+
+  pattern name: 'Bass Line', repeat: true, device: TEMPEST do
+    note 8, pitch: 'G4'
+    note 4, pitch: 'E4'
+    note 8, pitch: 'C4'
+    note 4, pitch: 'C4'
+    note 4, pitch: 'C4'
+  end
+end
+```
+
+This is useful for more complex patterns with names. Read the
+[RDoc documentation][rdoc] for more information on each component and what
+each DSL method does.
 
 ## Development
 
